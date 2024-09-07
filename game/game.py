@@ -7,11 +7,11 @@ from game.button.button import Button
 from game.settings import *
 import game.controls as controls
 
-class Game:
-    """Game loop and logic."""
 
+class Game:
+    """Game class to run the game."""
     def __init__(self) -> None:
-        """Initialize.
+        """Initialize the game.
 
         :return: None.
         """
@@ -30,21 +30,21 @@ class Game:
         self.flying = False
         self.game_over = False
 
-    def draw_text(self, text: str, font: pygame.font.Font, text_col: tuple, x: int, y: int) -> None:
+    def draw_text(self, text, font, text_col, x, y) -> None:
         """Draw text on the screen.
 
-        :param text: str: Text to display.
-        :param font: pygame.font.Font: Font to use.
-        :param text_col: tuple: Color of the text.
-        :param x: int: X coordinate.
-        :param y: int: Y coordinate.
+        :param text: str, text to draw.
+        :param font: pygame.font.Font, font object.
+        :param text_col: tuple, text color.
+        :param x: int, x-coordinate.
+        :param y: int, y-coordinate.
         :return: None.
         """
         img = font.render(text, True, text_col)
         self.screen.blit(img, (x, y))
 
     def reset_game(self) -> None:
-        """Reset the game loop.
+        """Reset the game.
 
         :return: None.
         """
@@ -53,7 +53,7 @@ class Game:
         self.score = 0
 
     def run(self) -> None:
-        """Run the game loop.
+        """Run the game.
 
         :return: None.
         """
@@ -75,6 +75,11 @@ class Game:
 
             self.check_collisions()
             self.display_score()
+
+            # Handle continuous flying by checking for clicks while flying
+            if self.flying and not self.game_over:
+                if controls.check_jump():
+                    self.flappy.vel = -10  # Apply the jump velocity to the bird
 
             if self.game_over and controls.check_reset_button(self.button):
                 self.game_over = False
@@ -107,7 +112,7 @@ class Game:
             self.last_pipe = time_now
 
     def update_ground(self) -> None:
-        """Update the ground scroll.
+        """Update the ground.
 
         :return: None.
         """
