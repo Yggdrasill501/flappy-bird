@@ -5,7 +5,7 @@ from game.bird.bird import Bird
 from game.pipe.pipe import Pipe
 from game.button.button import Button
 from game.settings import *
-import controls
+import game.controls as controls
 
 class Game:
     """Game loop and logic."""
