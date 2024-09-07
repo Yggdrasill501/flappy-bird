@@ -29,7 +29,10 @@ def check_jump() -> bool:
 
     :return: bool, True if the bird should jump.
     """
-    return pygame.mouse.get_pressed()[0] == 1
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            return True
+    return False
 
 def check_reset_button(button: Button) -> bool:
     """Check if the reset button is clicked.
